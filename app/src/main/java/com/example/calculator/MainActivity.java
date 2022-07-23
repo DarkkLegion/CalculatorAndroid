@@ -12,6 +12,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private EditText display;
+    private boolean ifEquals = false;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +127,12 @@ public class MainActivity extends AppCompatActivity {
     //equals button links to computeFunctions.java
     public void equalBTN(View view){
         String equation = display.getText().toString();
-        computeFunctions compObj = new computeFunctions();
-        double result = compObj.execute(equation);
+        equation = equation.replace("×","*");
+        equation = equation.replace("÷","/");
+        double result = computeFunctions.evaluate(equation);
         String s = Double.toString(result);
         display.setText(s);
+        display.setSelection(s.length());
+        ifEquals=true;
     }
 }
