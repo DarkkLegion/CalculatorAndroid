@@ -12,7 +12,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private EditText display;
-    private boolean ifEquals = false;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         display = findViewById(R.id.input);
         display.setShowSoftInputOnFocus(false);
+        //noinspection Convert2Lambda
         display.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -129,10 +130,15 @@ public class MainActivity extends AppCompatActivity {
         String equation = display.getText().toString();
         equation = equation.replace("×","*");
         equation = equation.replace("÷","/");
-        double result = computeFunctions.evaluate(equation);
-        String s = Double.toString(result);
-        display.setText(s);
-        display.setSelection(s.length());
-        ifEquals=true;
+        try {
+            double result = computeFunctions.evaluate(equation);
+            String s = Double.toString(result);
+            display.setText(s);
+            display.setSelection(s.length());
+        }
+        catch(Exception e){
+            display.setText(e.getMessage());
+            display.setSelection(display.length());
+        }
     }
 }

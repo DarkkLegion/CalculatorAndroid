@@ -14,15 +14,17 @@ public class computeFunctions {
             if (tokens[i] == ' ')
                 continue;
             // Current token is a number, push it to stack for numbers
-            if (tokens[i] >= '0' &&
-                    tokens[i] <= '9') {
+            if ((tokens[i] >= '0' && tokens[i] <= '9')||tokens[i] == '.') {
                 StringBuilder sbuf = new
                         StringBuilder();
                 // There may be more than one digits in number
-                while (i < tokens.length &&
-                        tokens[i] >= '0' &&
-                        tokens[i] <= '9')
+                while (i < tokens.length && tokens[i] >= '0' && tokens[i] <= '9')
                     sbuf.append(tokens[i++]);
+                if(i<tokens.length && tokens[i] == '.'){
+                    sbuf.append(tokens[i++]);
+                    while (i < tokens.length && tokens[i] >= '0' && tokens[i] <= '9')
+                        sbuf.append(tokens[i++]);
+                }
                 values.push(Double.parseDouble(sbuf.toString()));
                 i--;
             }
