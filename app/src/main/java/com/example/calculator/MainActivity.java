@@ -12,7 +12,9 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private EditText display;
-
+    public static void throwException() throws Exception {
+        throw new Exception("Cannot compute value!");
+    }
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,10 +135,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             double result = computeFunctions.evaluate(equation);
             String s = Double.toString(result);
+            if(s.contains("E"))
+                throwException();
             display.setText(s);
             display.setSelection(s.length());
         }
-        catch(Exception e){
+        catch(Throwable e){
             display.setText(e.getMessage());
             display.setSelection(display.length());
         }

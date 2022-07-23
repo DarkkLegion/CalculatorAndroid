@@ -1,5 +1,7 @@
 package com.example.calculator;
 import java.util.Stack;
+import java.lang.Math;
+
 public class computeFunctions {
     public static double evaluate(String expression) {
         char[] tokens = expression.toCharArray();
@@ -39,17 +41,20 @@ public class computeFunctions {
                             values.pop()));
                 ops.pop();
             }
+            //current token is a power
+            else if(tokens[i] == '^'){
+                //throw new UserDefinedException("tokens="+tokens[i]+" ops="+ops.peek());
+                while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
+                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+                ops.push(tokens[i]);
+            }
             // Current token is an operator.
             else if (tokens[i] == '+' ||
                     tokens[i] == '-' ||
                     tokens[i] == '*' ||
                     tokens[i] == '/') {
-                while (!ops.empty() &&
-                        hasPrecedence(tokens[i],
-                                ops.peek()))
-                    values.push(applyOp(ops.pop(),
-                            values.pop(),
-                            values.pop()));
+                while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
+                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));
                 // Push current token to 'ops'.
                 ops.push(tokens[i]);
             }
@@ -67,6 +72,8 @@ public class computeFunctions {
     public static boolean hasPrecedence(
             char op1, char op2) {
         if (op2 == '(' || op2 == ')')
+            return false;
+        if(op1 == '^')
             return false;
         if ((op1 == '*' || op1 == '/') &&
                 (op2 == '+' || op2 == '-'))
@@ -90,6 +97,9 @@ public class computeFunctions {
                             UnsupportedOperationException(
                             "Cannot divide by zero");
                 return a / b;
+            case '^':
+                return Math.pow(a,b);
+
         }
         return 0;
     }
