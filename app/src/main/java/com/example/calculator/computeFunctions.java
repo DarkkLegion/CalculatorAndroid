@@ -90,15 +90,22 @@ public class computeFunctions {
             case '-':
                 return a - b;
             case '*':
-                return a * b;
+                return Math.exp( Math.log(a) + Math.log(b) );
             case '/':
                 if (b == 0)
                     throw new
                             UnsupportedOperationException(
                             "Cannot divide by zero");
-                return a / b;
+                return Math.exp( Math.log(a) - Math.log(b) );
             case '^':
                 return Math.pow(a,b);
+                /*
+                int res=1;
+                for(int i=0;i<b;i++)
+                    res = Math.exp( Math.log(res) + Math.log(b) )
+                if(b==0) return 0;
+                else return res;
+                 */
 
         }
         return 0;
